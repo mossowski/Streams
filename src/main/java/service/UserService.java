@@ -6,7 +6,6 @@ import entities.User;
 
 import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 
@@ -21,7 +20,7 @@ public class UserService implements UserServiceInterface {
     public List<User> findUsersWithAddressesCountMoreThan(int numberOfAddresses) {
         List<User> result = users
                 .stream()
-                .filter(s -> s.getPersonDetails().getAddresses().size() > numberOfAddresses)
+                .filter(user -> user.getPersonDetails().getAddresses().size() > numberOfAddresses)
                 .collect(Collectors.toList());
         return result;
     }
@@ -60,7 +59,7 @@ public class UserService implements UserServiceInterface {
                 .filter(user -> user.getName().startsWith(prefix))
                 .map(user -> user.getPersonDetails().getRole().getPermissions())
                 .flatMap(list -> list.stream())
-                .map(s -> s.getName())
+                .map(permission -> permission.getName())
                 .sorted()
                 .collect(Collectors.toList());
         return result;
@@ -81,7 +80,7 @@ public class UserService implements UserServiceInterface {
                 .filter(user -> user.getPersonDetails().getSurname().startsWith(suffix))
                 .map(user -> user.getPersonDetails().getRole().getPermissions())
                 .flatMap(list -> list.stream())
-                .map(s -> s.getName().toUpperCase())
+                .map(permission -> permission.getName().toUpperCase())
                 .forEach(e -> System.out.print(e + " "));
     }
 
